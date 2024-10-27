@@ -24,6 +24,8 @@ Ocp-Apim-Subscription-Key: <subscription_key>
   - Up to 200 instances
   - Up to 5 minutes timeout
 
+Azure Function example:
+
 ```csharp
 [Function("evaluate")]
 public static async Task<object> EvaluateAsync(
@@ -40,6 +42,9 @@ public static async Task<object> EvaluateAsync(
 
         var prediction = await context.CallActivityAsync<object>("GetPredictionAsync", plot.Coordinates);
 
+        await context.CallActivityAsync<object>("SaveImageAsync", satellite);
+        await context.CallActivityAsync<object>("SaveImageAsync", street);
+
         // ...
 
         return  await context.CallActivityAsync<object>("BuildAnswer", (plot, satellite, street, prediction));
@@ -48,6 +53,16 @@ public static async Task<object> EvaluateAsync(
     {
         // Error handling or compensation goes here.
     }
+}
+```
+
+Response example:
+
+```json
+{
+    "propertyOne": "",
+    "propertyTwo": "",
+    "imageSasUri: "https://accountName.blob.core.windows.net/xxx.png?sv=xxx&se=xxx&sr=xxx&sig=xxx"
 }
 ```
 
