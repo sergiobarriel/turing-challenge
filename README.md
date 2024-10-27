@@ -62,7 +62,7 @@ Response example:
 {
     "propertyOne": "",
     "propertyTwo": "",
-    "imageSasUri: "https://accountName.blob.core.windows.net/xxx.png?sv=xxx&se=xxx&sr=xxx&sig=xxx"
+    "imageSasUri": "https://accountName.blob.core.windows.net/xxx.png?sv=xxx&se=xxx&sr=xxx&sig=xxx"
 }
 ```
 
