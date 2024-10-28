@@ -60,7 +60,7 @@ Response example:
 }
 ```
 
-__Note: The file is a reference with a SAS token, never a byte array__
+*Note: The file is a reference with a SAS token, never a byte array*
 
 ### 3. Telemetry
 
