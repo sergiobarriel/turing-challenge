@@ -66,6 +66,8 @@ Response example:
 
 Between each call to an activity, we can log **custom metrics** in Application Insights to capture timing data. We can then retrieve this timing information using Kusto queries (KQL) and generate alerts when values fall outside specified thresholds.
 
+Azure Function example:
+
 ```csharp
  [FunctionName("Chaining")]
     public static async Task<object> RunAsync(
