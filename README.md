@@ -208,6 +208,53 @@ This a more detailed diagram about Gitflow:
 
 ![top level diagram](images/gitflow.png)
 
+YML example:
+
+```yml
+trigger: 
+  branches:
+    exclude:
+      - '*'
+
+pr:
+  branches:
+    include:
+      - main
+
+jobs:
+- job: buildanddeploy
+  displayName: 'build, test, and deploy'
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '6.x'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - script: |
+      dotnet restore
+    displayName: 'restore dependencies'
+
+  - script: |
+      dotnet build --configuration Release
+    displayName: 'build solution'
+
+  - script: |
+      dotnet test --configuration Release --no-build --verbosity normal
+    displayName: 'run xunit tests'
+
+  - task: AzureFunctionApp@1
+    inputs:
+      azureSubscription: 'YOUR_AZURE_SUBSCRIPTION'
+      appType: 'functionApp'
+      appName: '<YOUR_FUNCTION_APP_NAME>'
+      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      deploymentMethod: 'zipDeploy'
+```
+
 ### 7. Costs
 
 Monthly costs will be around 150€.
