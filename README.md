@@ -31,27 +31,16 @@ The Function App could be *Consuption plan* because it supports
 Azure Function example:
 
 ```csharp
-[Function("evaluate")]
-public static async Task<object> EvaluateAsync(
-    [OrchestrationTrigger] TaskOrchestrationContext context,
-    string address)
+[FunctionName("Chaining")]
+public static async Task<object> RunAsync(
+    [OrchestrationTrigger] IDurableOrchestrationContext context)
 {
     try
     {
-        var plot = await context.CallActivityAsync<object>("GetPlotAsync", address);
-        var satellite = await context.CallActivityAsync<object>("GetGoogleSatelliteAsync", plot.Coordinates);
-        var street = await context.CallActivityAsync<object>("GetGoogleStreetAsync", plot.Coordinates);
-
-        // ...
-
-        var prediction = await context.CallActivityAsync<object>("GetPredictionAsync", plot.Coordinates);
-
-        await context.CallActivityAsync<object>("SaveImageAsync", satellite);
-        await context.CallActivityAsync<object>("SaveImageAsync", street);
-
-        // ...
-
-        return  await context.CallActivityAsync<object>("BuildAnswer", (plot, satellite, street, prediction));
+        var x = await context.CallActivityAsync<object>("F1", null);
+        var y = await context.CallActivityAsync<object>("F2", x);
+        var z = await context.CallActivityAsync<object>("F3", y);
+        return  await context.CallActivityAsync<object>("F4", z);
     }
     catch (Exception)
     {
@@ -69,8 +58,52 @@ Response example:
     "imageSasUri": "https://accountName.blob.core.windows.net/xxx.png?sv=xxx&se=xxx&sr=xxx&sig=xxx"
 }
 ```
+### 3. Telemetry
 
-### Health checks & Azure Monitor
+```csharp
+ [FunctionName("Chaining")]
+    public static async Task<object> RunAsync(
+        [OrchestrationTrigger] IDurableOrchestrationContext context)
+    {
+        var telemetryClient = new TelemetryClient();
+
+        try
+        {
+            // Measure time for F1
+            var start = DateTime.UtcNow;
+            var x = await context.CallActivityAsync<object>("F1", null);
+            var elapsed = DateTime.UtcNow - start;
+            telemetryClient.TrackMetric("F1Duration", elapsed.TotalMilliseconds);
+
+            // Measure time for F2
+            start = DateTime.UtcNow;
+            var y = await context.CallActivityAsync<object>("F2", x);
+            elapsed = DateTime.UtcNow - start;
+            telemetryClient.TrackMetric("F2Duration", elapsed.TotalMilliseconds);
+
+            // Measure time for F3
+            start = DateTime.UtcNow;
+            var z = await context.CallActivityAsync<object>("F3", y);
+            elapsed = DateTime.UtcNow - start;
+            telemetryClient.TrackMetric("F3Duration", elapsed.TotalMilliseconds);
+
+            // Measure time for F4
+            start = DateTime.UtcNow;
+            var result = await context.CallActivityAsync<object>("F4", z);
+            elapsed = DateTime.UtcNow - start;
+            telemetryClient.TrackMetric("F4Duration", elapsed.TotalMilliseconds);
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            telemetryClient.TrackException(ex);
+            throw;
+        }
+    }
+```
+
+### 4. Health checks & Azure Monitor
 
 By include Health checks API in Function App we can monitor availability and performance even third-party integrations.
 
