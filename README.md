@@ -156,3 +156,35 @@ Now, with the response we have configured using the Health Checks API, we can co
 ![top level diagram](images/azure-monitor-standard-test.png)
 
 With an alert, we can trigger another Azure Function or Logic App (for example) to create a Jira ticket.
+
+### 5. CI/CD
+
+Solution repository should contains a .yml file that triggers when a user completes a "Pull Requests"
+
+The pipeline should
+- Build solution
+- Execute xUnit tests
+- Deploy Function App
+
+![top level diagram](images/cicd.png)
+
+This a more detailed diagram about Gitflow:
+
+![top level diagram](images/gitflow.png)
+
+### 7. Costs
+
+Monthly costs will be around 150€.
+
+| Resource | Tier | Monthly cost |
+|--|--|--|
+| Azure Function App | Consumption | 0€ |
+| Azure Storage Account | Writes up to 200k files and store 200Gb | 5€ |
+| Azure API Management | Basic | 130€ |
+| Azure Cosmos Db | Serverless | 30€  |
+
+Costs can be optimized with a few considerations:
+
+- We can create budgets in Azure Cost Management and alerts to notify subscription administrators
+- Older files can be moved to cold storage
+- Minimize the telemetry data we store
