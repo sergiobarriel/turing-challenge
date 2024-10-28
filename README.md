@@ -122,6 +122,34 @@ GET https://turing-challenge.azure-api.net/api/health-checks
 Ocp-Apim-Subscription-Key: <subscription_key>
 ```
 
+Implementation example:
+
+```csharp
+
+public class GoogleMapsHealthCheck : IHealthCheck
+{
+    private readonly HttpClient _httpClient;
+
+    public GoogleMapsHealthCheck()
+    {
+        _httpClient = new HttpClient();
+    }
+
+    public async Task<HealthCheckResult> CheckAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    {
+        var apiKey = Environment.GetEnvironmentVariable("GOOGLE_MAPS_API_KEY");
+        var response = await _httpClient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address=xxx&key={apiKey}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            return HealthCheckResult.Healthy("Google Maps API is reachable.");
+        }
+
+        return HealthCheckResult.Unhealthy("Google Maps API is not reachable.");
+    }
+}
+```
+
 Example response:
 
 ```json
@@ -151,7 +179,7 @@ Example response:
       "details": {
         "error": "503 Service Unavailable",
         "lastCheck": "2024-10-28T10:30:00Z",
-        "message": "Google Maps API is currently unavailable"
+        "message": "Google Maps API is not reachable."
       }
     }
   },
