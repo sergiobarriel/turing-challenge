@@ -6,7 +6,7 @@
 
 ### 1. Authentication / Authorization
 
-The client registers in **Azure API Management** developer portal and then makes a request to the Azure API Management API endpoint using their subscription key. Azure API Management validates the subscription key along with applicable quotas (policies) and forwards the request to the Function App. Before performing any action, the Function App can validate which products the subscriber has access to.
+The client registers in **Azure API Management** developer portal and then makes a request to the Azure API Management API endpoint using their **subscription key**. Azure API Management validates the subscription key along with applicable quotas (policies) and forwards the request to the Function App. Before performing any action, the Function App can validate which **products** the subscriber has access to.
 
 Request example:
 
