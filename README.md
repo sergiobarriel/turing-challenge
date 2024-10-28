@@ -59,6 +59,9 @@ Response example:
     "imageSasUri": "https://accountName.blob.core.windows.net/xxx.png?sv=xxx&se=xxx&sr=xxx&sig=xxx"
 }
 ```
+
+__Note: The file is a reference with a SAS token, never a byte array__
+
 ### 3. Telemetry
 
 Between each call to an activity, we can log **custom metrics** in Application Insights to capture timing data. We can then retrieve this timing information using Kusto queries (KQL) and generate alerts when values fall outside specified thresholds.
