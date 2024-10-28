@@ -14,6 +14,7 @@ Request example:
 GET https://turing-challenge.azure-api.net/api/endpoint?address=xxx
 Ocp-Apim-Subscription-Key: <subscription_key>
 ```
+Another valid approach could focus on using **Entra Id / Azure AD** for managing authentication and authorization, as well as implementing middleware in the application to control aspects such as quotas, caching, and more.
 
 ### 2. Function App
 
