@@ -19,7 +19,7 @@ Ocp-Apim-Subscription-Key: <subscription_key>
 
 The Function App executes a Durable Function using the Function [**Function chaining pattern**](https://learn.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-overview?tabs=isolated-process%2Cnodejs-v3%2Cv1-model&pivots=csharp#chaining). Each activity performs necessary tasks within its own scope, such as calling third-party services, storing or reading data in a database, or saving files. Each Function also logs telemetry and custom metrics.
 
-![top level diagram](images/funciton-chaining.png)
+![top level diagram](images/function-chaining.png)
 
 #### Considerations
 
