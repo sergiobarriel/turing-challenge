@@ -195,12 +195,7 @@ With an alert, we can trigger another Azure Function or Logic App (for example) 
 
 ### 5. CI/CD
 
-Solution repository should contains a .yml file that triggers when a user completes a "Pull Requests"
-
-The pipeline should
-- Build solution
-- Execute xUnit tests
-- Deploy Function App
+To implement a CI/CD pipeline in Azure DevOps that triggers on Pull Requests, you can create a YAML file that defines the necessary steps to build the solution, run xUnit tests, and deploy an Azure Function App. Below is a detailed example of how to set this up.
 
 ![top level diagram](images/cicd.png)
 
